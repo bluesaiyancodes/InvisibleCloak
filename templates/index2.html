@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Wind Visualization</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="{{ url_for('static', filename='js/d3.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+       
+    </head>
+    <body >
+        <div class="topnav">
+            <form name = "choices" id = "choices" method="POST" onsubmit="return validate()">
+                <ul style="list-style-type:none;">
+                    <li>Wind Level: <input type="number" name="level"  value="35"></li>
+                    <li>Skip By: <input type="number" name="leap"  value="15"></li>
+                    <li>Height of Wind Vectors: <input type="number" name="h" value="500"></li>
+                    <li>Vectors Size: <input type="number", step="any" name="arrow_size" value="0.9"></li>
+                </ul><br>
+                <ul style="list-style-type:none;">
+                    <li>Terrain: <input type="checkbox" id = 'terr' name="terrain" value="show"></li>
+                    <li>Wind: <input type="checkbox" id = 'wnd' name="wind" value="show"></li>
+                    <li>Contour: <input type="checkbox" id = 'cntr' name="contour" value="show"></li>
+                </ul><br>
+                <input type='hidden' id= 'terr_flag' name='terr_flag' value='' />
+                <input type='hidden' id= 'wnd_flag' name='wnd_flag' value='' />
+                <input type='hidden' id= 'cntr_flag' name='cntr_flag' value='' />
+
+               <input type = "submit" value = "Render Plot">  
+            </form>
+        </div>
+        <div id="chart" class="chart">
+        </div>
+        <input type='text' id= 'test' name='test'/>
+
+        <script>
+        
+        jQuery(document).on('ready', function() {
+        jQuery('#choices').bind('submit', function(event){
+        event.preventDefault();
+
+        var form = this;
+
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: form,
+            success: function(data){ 
+                alert(data.data);
+                $("#test") = data.data;
+            }
+        }).done(function(data){
+            alert(data);
+        });
+    });
+});
+        
+        </script>
+
+        
+    </body>
+</html>
